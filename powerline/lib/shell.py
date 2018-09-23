@@ -16,7 +16,7 @@ if sys.platform.startswith('win32'):
 	Popen = partial(Popen, creationflags=0x08000000)
 
 
-def run_cmd(pl, cmd, stdin=None, strip=True):
+def run_cmd(pl, cmd, stdin=None, strip=True, log_failures=True):
 	'''Run command and return its stdout, stripped
 
 	If running command fails returns None and logs failure to ``pl`` argument.
@@ -33,7 +33,8 @@ def run_cmd(pl, cmd, stdin=None, strip=True):
 	try:
 		p = Popen(cmd, shell=False, stdout=PIPE, stdin=PIPE)
 	except OSError as e:
-		pl.exception('Could not execute command ({0}): {1}', e, cmd)
+		if log_failures:
+			pl.exception('Could not execute command ({0}): {1}', e, cmd)
 		return None
 	else:
 		stdout, err = p.communicate(

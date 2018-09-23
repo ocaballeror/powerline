@@ -139,7 +139,7 @@ class CmusPlayerSegment(PlayerSegment):
 		method takes anything in ignore_levels and brings the key inside that
 		to the first level of the dictionary.
 		'''
-		now_playing_str = run_cmd(pl, ['cmus-remote', '-Q'])
+		now_playing_str = run_cmd(pl, ['cmus-remote', '-Q'], log_failures=False)
 		if not now_playing_str:
 			return
 		ignore_levels = ('tag', 'set',)
@@ -178,7 +178,7 @@ class MpdPlayerSegment(PlayerSegment):
 				'-f', '%album%\n%artist%\n%title%\n%time%',
 				'-h', host,
 				'-p', str(port)
-			], strip=False)
+			], strip=False, log_failures=False)
 			if not now_playing:
 				return
 			now_playing = now_playing.split('\n')
@@ -430,7 +430,7 @@ class RhythmboxPlayerSegment(PlayerSegment):
 			'rhythmbox-client',
 			'--no-start', '--no-present',
 			'--print-playing-format', '%at\n%aa\n%tt\n%te\n%td'
-		], strip=False)
+		], strip=False, log_failures=False)
 		if not now_playing:
 			return
 		now_playing = now_playing.split('\n')
@@ -578,7 +578,7 @@ class MocPlayerSegment(PlayerSegment):
 		in this method takes anything in ignore_info and brings the key inside 
 		that to the right info of the dictionary.
 		'''
-		now_playing_str = run_cmd(pl, ['mocp', '-i'])
+		now_playing_str = run_cmd(pl, ['mocp', '-i'], log_failures=False)
 		if not now_playing_str:
 			return
 
